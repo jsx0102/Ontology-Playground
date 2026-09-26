@@ -3,7 +3,7 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [main]
+    branches: [zh-CN]
   workflow_dispatch:
 
 permissions:
@@ -17,7 +17,6 @@ concurrency:
 
 jobs:
   build:
-    if: github.repository == 'microsoft/Ontology-Playground'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -50,7 +49,6 @@ jobs:
           path: build
 
   deploy:
-    if: github.repository == 'microsoft/Ontology-Playground'
     needs: build
     runs-on: ubuntu-latest
     environment:
