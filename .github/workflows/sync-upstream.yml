@@ -33,7 +33,7 @@ jobs:
 
       - name: Sync main
         run: |
-          git checkout main
+          git checkout -B main origin/main
           if git merge --ff-only upstream/main; then
             git push origin main
             echo "main_updated=true" >> "$GITHUB_ENV"
