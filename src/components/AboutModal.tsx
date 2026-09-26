@@ -23,8 +23,8 @@ export function AboutModal({ onClose }: AboutModalProps) {
         style={{ maxWidth: 720 }}
       >
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
-          <h2 style={{ fontSize: 24, fontWeight: 600 }}>About Ontology Playground</h2>
-          <button className="icon-btn" onClick={onClose} aria-label="Close about dialog">
+          <h2 style={{ fontSize: 24, fontWeight: 600 }}>关于 Ontology Playground</h2>
+          <button className="icon-btn" onClick={onClose} aria-label="关闭关于对话框">
             <X size={20} />
           </button>
         </div>
@@ -32,11 +32,11 @@ export function AboutModal({ onClose }: AboutModalProps) {
         <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
           <div className="feature-card" style={{ marginBottom: 0 }}>
             <p className="feature-text" style={{ margin: 0 }}>
-              Ontology Playground is a community learning and design experience for building RDF/OWL ontologies,
-              exploring graph relationships, and preparing models compatible with Microsoft Fabric IQ workflows.
+              Ontology Playground 是一个社区学习与设计体验平台，用于构建 RDF/OWL 本体、
+              探索关系图中的关系，并准备与 Microsoft Fabric IQ 工作流兼容的模型。
             </p>
             <p className="feature-text" style={{ margin: '10px 0 0 0' }}>
-              Learn more about Microsoft Fabric IQ:{' '}
+              了解更多 Microsoft Fabric IQ 相关信息：{' '}
               <a
                 className="about-link"
                 href="https://learn.microsoft.com/fabric/iq/overview"
@@ -58,20 +58,18 @@ export function AboutModal({ onClose }: AboutModalProps) {
           >
             <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 8 }}>
               <Info size={18} color="var(--ms-blue)" />
-              <strong style={{ color: 'var(--text-primary)' }}>Trademark Notice</strong>
+              <strong style={{ color: 'var(--text-primary)' }}>商标声明</strong>
             </div>
             <p style={{ fontSize: 13, lineHeight: 1.6, color: 'var(--text-secondary)', margin: 0 }}>
-              Trademarks This project may contain trademarks or logos for projects, products, or services. Authorized
-              use of Microsoft trademarks or logos is subject to and must follow Microsoft’s Trademark &amp; Brand
-              Guidelines. Use of Microsoft trademarks or logos in modified versions of this project must not cause
-              confusion or imply Microsoft sponsorship. Any use of third-party trademarks or logos are subject to
-              those third-party’s policies.
+              本项目可能包含项目、产品或服务的商标或徽标。Microsoft 商标和徽标的授权使用须遵守并遵循
+              Microsoft 的《商标和品牌指南》。在本项目的修改版本中使用 Microsoft 商标或徽标，不得引起混淆
+              或暗示 Microsoft 的赞助。任何第三方商标或徽标的使用须遵守相应第三方的政策。
             </p>
           </div>
         </div>
 
         <div style={{ marginTop: 22, textAlign: 'center' }}>
-          <button className="btn btn-primary" onClick={onClose}>Close</button>
+          <button className="btn btn-primary" onClick={onClose}>关闭</button>
         </div>
       </motion.div>
     </motion.div>

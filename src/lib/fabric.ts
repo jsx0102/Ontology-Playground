@@ -286,7 +286,7 @@ async function fabricFetch<T>(
 
   if (!res.ok) {
     let errorCode: string | undefined;
-    let message = `Fabric API error: ${res.status} ${res.statusText}`;
+    let message = `Fabric API 错误：${res.status} ${res.statusText}`;
     try {
       const body = await res.json();
       if (body.errorCode) errorCode = body.errorCode;
@@ -332,7 +332,7 @@ async function pollOperation(
       if (body.status === 'Succeeded') return;
       if (body.status === 'Failed') {
         throw new FabricApiError(
-          body.error?.message ?? 'Operation failed',
+          body.error?.message ?? '操作失败',
           400,
           body.error?.errorCode,
         );
@@ -342,10 +342,10 @@ async function pollOperation(
       // Still in progress
       continue;
     } else {
-      throw new FabricApiError(`Failed to poll operation: ${res.status}`, res.status);
+      throw new FabricApiError(`轮询操作失败：${res.status}`, res.status);
     }
   }
-  throw new FabricApiError('Operation timed out', 408);
+  throw new FabricApiError('操作超时', 408);
 }
 
 // ─── Public API ────────────────────────────────────────────────────────────
@@ -393,7 +393,7 @@ export async function createOntology(
     const ontologies = await listOntologies(workspaceId, token);
     const created = ontologies.find(o => o.displayName === body.displayName);
     if (created) return created;
-    throw new FabricApiError('Ontology created but not found in workspace', 404);
+    throw new FabricApiError('本体已创建，但在工作区中未找到', 404);
   }
 
   return result.data!;

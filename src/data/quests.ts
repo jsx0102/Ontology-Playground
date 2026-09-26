@@ -25,179 +25,179 @@ export interface QuestStep {
 export const quests: Quest[] = [
   {
     id: "quest-1",
-    title: "Meet the Entities",
-    description: "Discover the core building blocks of the Fourth Coffee ontology by exploring entity types.",
+    title: "认识实体",
+    description: "通过探索实体类型，发现 Fourth Coffee 本体的核心构建块。",
     difficulty: "beginner",
     category: "exploration",
     steps: [
       {
         id: "step-1-1",
-        instruction: "Click on the Customer entity to learn about customers",
+        instruction: "点击 Customer（客户）实体，了解客户信息",
         targetType: "entity",
         targetId: "customer",
-        hint: "Look for the 👤 icon in the graph"
+        hint: "在关系图中寻找 👤 图标"
       },
       {
         id: "step-1-2",
-        instruction: "Now explore the Product entity",
+        instruction: "接下来探索 Product（产品）实体",
         targetType: "entity",
         targetId: "product",
-        hint: "Find the ☕ coffee cup icon"
+        hint: "找到 ☕ 咖啡杯图标"
       },
       {
         id: "step-1-3",
-        instruction: "Finally, check out the Store entity",
+        instruction: "最后看看 Store（门店）实体",
         targetType: "entity",
         targetId: "store",
-        hint: "Locate the 🏪 store icon"
+        hint: "找到 🏪 门店图标"
       }
     ],
     reward: {
-      badge: "Entity Explorer",
+      badge: "实体探索者",
       badgeIcon: "🎖️",
       points: 100
     }
   },
   {
     id: "quest-2",
-    title: "The Bean Trail",
-    description: "Trace the journey of a coffee bean from supplier to customer by following relationships.",
+    title: "咖啡豆之旅",
+    description: "沿着关系追踪一颗咖啡豆从供应商到客户的旅程。",
     difficulty: "intermediate",
     category: "traversal",
     steps: [
       {
         id: "step-2-1",
-        instruction: "Start at the Supplier entity - this is where beans originate",
+        instruction: "从 Supplier（供应商）实体出发——这里是咖啡豆的源头",
         targetType: "entity",
         targetId: "supplier",
-        hint: "Find the 🚚 truck icon"
+        hint: "找到 🚚 卡车图标"
       },
       {
         id: "step-2-2",
-        instruction: "Follow the 'sourcedFrom' relationship to Product",
+        instruction: "沿着 'sourcedFrom' 关系走向 Product（产品）",
         targetType: "relationship",
         targetId: "product_sourced_from_supplier",
-        hint: "Click the line connecting Supplier to Product"
+        hint: "点击连接 Supplier 与 Product 的连线"
       },
       {
         id: "step-2-3",
-        instruction: "Explore the 'contains' relationship to see how products appear in orders",
+        instruction: "探索 'contains' 关系，看看产品如何出现在订单中",
         targetType: "relationship",
         targetId: "order_contains_product",
-        hint: "Look at the connection between Order and Product"
+        hint: "查看 Order 与 Product 之间的连线"
       },
       {
         id: "step-2-4",
-        instruction: "Finally, see the 'places' relationship showing who placed the order",
+        instruction: "最后看看 'places' 关系，了解是谁下了订单",
         targetType: "relationship",
         targetId: "customer_places_order",
-        hint: "Find the relationship from Customer to Order"
+        hint: "找到从 Customer 到 Order 的关系"
       }
     ],
     reward: {
-      badge: "Bean Detective",
+      badge: "咖啡豆侦探",
       badgeIcon: "🔍",
       points: 250
     }
   },
   {
     id: "quest-3",
-    title: "Supply Chain Navigator",
-    description: "Understand how shipments connect suppliers to stores.",
+    title: "供应链导航",
+    description: "了解货运如何将供应商与门店连接起来。",
     difficulty: "intermediate",
     category: "traversal",
     steps: [
       {
         id: "step-3-1",
-        instruction: "Click on the Shipment entity",
+        instruction: "点击 Shipment（货运）实体",
         targetType: "entity",
         targetId: "shipment",
-        hint: "Find the 📦 package icon"
+        hint: "找到 📦 包裹图标"
       },
       {
         id: "step-3-2",
-        instruction: "Explore the 'sentBy' relationship to Supplier",
+        instruction: "探索通向 Supplier（供应商）的 'sentBy' 关系",
         targetType: "relationship",
         targetId: "shipment_from_supplier",
-        hint: "See where shipments come from"
+        hint: "查看货运从哪里发出"
       },
       {
         id: "step-3-3",
-        instruction: "Follow the 'deliveredTo' relationship to Store",
+        instruction: "沿着通向 Store（门店）的 'deliveredTo' 关系前进",
         targetType: "relationship",
         targetId: "shipment_to_store",
-        hint: "See where shipments go"
+        hint: "查看货运送达的目的地"
       }
     ],
     reward: {
-      badge: "Supply Chain Master",
+      badge: "供应链大师",
       badgeIcon: "🌐",
       points: 200
     }
   },
   {
     id: "quest-4",
-    title: "Query Explorer",
-    description: "Learn to ask questions using natural language queries.",
+    title: "查询探索",
+    description: "学习使用自然语言查询进行提问。",
     difficulty: "advanced",
     category: "query",
     steps: [
       {
         id: "step-4-1",
-        instruction: "Try asking: 'Show me all Gold tier customers'",
+        instruction: "试着提问：“Show me all Gold tier customers”（显示所有金牌级客户）",
         targetType: "query",
-        hint: "Type in the query playground"
+        hint: "在查询工作台中输入"
       },
       {
         id: "step-4-2",
-        instruction: "Now ask: 'Which products come from Ethiopia?'",
+        instruction: "再问一个：“Which products come from Ethiopia?”（哪些产品来自埃塞俄比亚？）",
         targetType: "query",
-        hint: "Use natural language to filter by origin"
+        hint: "使用自然语言按产地筛选"
       },
       {
         id: "step-4-3",
-        instruction: "Try a traversal query: 'What orders did Arif Ramadhan place?'",
+        instruction: "试一个遍历查询：“What orders did Arif Ramadhan place?”（Arif Ramadhan 下过哪些订单？）",
         targetType: "query",
-        hint: "This follows the Customer → Order relationship"
+        hint: "这将沿 Customer → Order 关系进行查询"
       }
     ],
     reward: {
-      badge: "Query Wizard",
+      badge: "查询向导",
       badgeIcon: "🧙",
       points: 300
     }
   },
   {
     id: "quest-5",
-    title: "Data Binding Discovery",
-    description: "Learn how ontology concepts connect to real data platform sources.",
+    title: "数据绑定探秘",
+    description: "了解本体概念如何连接到真实的数据平台数据源。",
     difficulty: "advanced",
     category: "exploration",
     steps: [
       {
         id: "step-5-1",
-        instruction: "Select the Customer entity and view its data bindings",
+        instruction: "选中 Customer（客户）实体并查看其数据绑定",
         targetType: "entity",
         targetId: "customer",
-        hint: "Look for the 'Data Bindings' section in the inspector"
+        hint: "在检查器中找到 “Data Bindings”（数据绑定）部分"
       },
       {
         id: "step-5-2",
-        instruction: "Examine how Customer properties map to source columns",
+        instruction: "查看 Customer 的属性如何映射到源数据列",
         targetType: "property",
         targetId: "name",
-        hint: "Notice how 'name' maps to 'full_name' in the source"
+        hint: "注意 'name' 在源数据中映射为 'full_name'"
       },
       {
         id: "step-5-3",
-        instruction: "Check the Product entity's binding and note the source and table",
+        instruction: "查看 Product（产品）实体的绑定，记下其源数据和表",
         targetType: "entity",
         targetId: "product",
-        hint: "Look at the Data Bindings card under Product"
+        hint: "查看 Product 下方的 Data Bindings 卡片"
       }
     ],
     reward: {
-      badge: "Binding Expert",
+      badge: "绑定专家",
       badgeIcon: "🔗",
       points: 350
     }

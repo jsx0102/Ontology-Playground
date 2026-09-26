@@ -59,14 +59,14 @@ export function EntityForm() {
   return (
     <div className="designer-entity-list">
       <div className="designer-section-header">
-        <h3>Entity Types ({ontology.entityTypes.length})</h3>
-        <button className="designer-add-btn" onClick={handleAddEntity} title="Add entity type">
-          <Plus size={14} /> Add
+        <h3>实体类型（{ontology.entityTypes.length}）</h3>
+        <button className="designer-add-btn" onClick={handleAddEntity} title="添加实体类型">
+          <Plus size={14} /> 添加
         </button>
       </div>
 
       {ontology.entityTypes.length === 0 && (
-        <div className="designer-empty">No entity types yet. Click "Add" to create one.</div>
+        <div className="designer-empty">还没有实体类型。点击"添加"来创建一个。</div>
       )}
 
       {ontology.entityTypes.map((entity) => {
@@ -87,7 +87,7 @@ export function EntityForm() {
                 toggleExpand(entity.id);
               }}
             >
-              <button className="designer-expand-btn" aria-label={isExpanded ? 'Collapse' : 'Expand'}>
+              <button className="designer-expand-btn" aria-label={isExpanded ? '折叠' : '展开'}>
                 {isExpanded ? <ChevronDown size={14} /> : <ChevronRight size={14} />}
               </button>
               <span
@@ -96,12 +96,12 @@ export function EntityForm() {
               >
                 {entity.icon}
               </span>
-              <span className="designer-entity-name">{entity.name || 'Unnamed'}</span>
-              <span className="designer-entity-badge">{entity.properties.length} props</span>
+              <span className="designer-entity-name">{entity.name || '未命名'}</span>
+              <span className="designer-entity-badge">{entity.properties.length} 个属性</span>
               <button
                 className="designer-delete-btn"
                 onClick={(e) => { e.stopPropagation(); removeEntity(entity.id); }}
-                title="Delete entity"
+                title="删除实体"
               >
                 <Trash2 size={14} />
               </button>
@@ -112,32 +112,32 @@ export function EntityForm() {
               <div className="designer-entity-body">
                 {/* Name */}
                 <label className="designer-field">
-                  <span>Name</span>
+                  <span>名称</span>
                   <input
                     type="text"
                     value={entity.name}
                     onChange={(e) => updateEntity(entity.id, { name: e.target.value })}
-                    placeholder="Entity name"
+                    placeholder="实体名称"
                   />
-                  {entity.name && fabricIQNameError('Entity type', entity.name) && (
-                    <span className="designer-field-hint error">{fabricIQNameError('Entity type', entity.name)}</span>
+                  {entity.name && fabricIQNameError('实体类型', entity.name) && (
+                    <span className="designer-field-hint error">{fabricIQNameError('实体类型', entity.name)}</span>
                   )}
                 </label>
 
                 {/* Description */}
                 <label className="designer-field">
-                  <span>Description</span>
+                  <span>描述</span>
                   <textarea
                     rows={2}
                     value={entity.description}
                     onChange={(e) => updateEntity(entity.id, { description: e.target.value })}
-                    placeholder="What does this entity represent?"
+                    placeholder="这个实体代表什么？"
                   />
                 </label>
 
                 {/* Icon picker */}
                 <div className="designer-field">
-                  <span>Icon</span>
+                  <span>图标</span>
                   <div className="designer-icon-grid">
                     {ENTITY_ICONS.map((icon) => (
                       <button
@@ -153,7 +153,7 @@ export function EntityForm() {
 
                 {/* Color picker */}
                 <div className="designer-field">
-                  <span>Color</span>
+                  <span>颜色</span>
                   <div className="designer-color-grid">
                     {ENTITY_COLORS.map((color) => (
                       <button
@@ -161,7 +161,7 @@ export function EntityForm() {
                         className={`designer-color-btn ${entity.color === color ? 'active' : ''}`}
                         style={{ backgroundColor: color }}
                         onClick={() => updateEntity(entity.id, { color })}
-                        aria-label={`Color ${color}`}
+                        aria-label={`颜色 ${color}`}
                       />
                     ))}
                   </div>
@@ -170,27 +170,27 @@ export function EntityForm() {
                 {/* Properties */}
                 <div className="designer-field">
                   <div className="designer-section-header">
-                    <span>Properties ({entity.properties.length})</span>
+                    <span>属性（{entity.properties.length}）</span>
                     <button
                       className="designer-add-btn small"
                       onClick={() => addProperty(entity.id)}
                     >
-                      <Plus size={12} /> Add
+                      <Plus size={12} /> 添加
                     </button>
                   </div>
 
                   <div className="designer-property-list">
                     {entity.properties.map((prop, idx) => {
-                      const propNameErr = prop.name ? fabricIQNameError('Property', prop.name) : null;
+                      const propNameErr = prop.name ? fabricIQNameError('属性', prop.name) : null;
                       const idTypeErr = prop.isIdentifier && prop.type !== 'string' && prop.type !== 'integer'
-                        ? `Identifier must be string or integer (currently ${prop.type}).`
+                        ? `标识符必须是 string 或 integer（当前为 ${prop.type}）。`
                         : null;
                       return (
                       <div key={idx}>
                       <div className="designer-property-row">
                         <span
                           className="designer-grip"
-                          title="Drag to reorder"
+                          title="拖拽以调整顺序"
                           draggable
                           onDragStart={(e) => {
                             e.dataTransfer.setData('text/plain', String(idx));
@@ -212,7 +212,7 @@ export function EntityForm() {
                           type="text"
                           value={prop.name}
                           onChange={(e) => updateProperty(entity.id, idx, { name: e.target.value })}
-                          placeholder="Property name"
+                          placeholder="属性名"
                         />
                         <select
                           className="designer-prop-type"
@@ -228,14 +228,14 @@ export function EntityForm() {
                         <button
                           className={`designer-id-btn ${prop.isIdentifier ? 'active' : ''} ${idTypeErr ? 'warning' : ''}`}
                           onClick={() => updateProperty(entity.id, idx, { isIdentifier: !prop.isIdentifier })}
-                          title={idTypeErr || (prop.isIdentifier ? 'Remove as identifier' : 'Mark as identifier')}
+                          title={idTypeErr || (prop.isIdentifier ? '取消标识符' : '设为标识符')}
                         >
                           <Key size={12} />
                         </button>
                         <button
                           className="designer-delete-btn small"
                           onClick={() => removeProperty(entity.id, idx)}
-                          title="Remove property"
+                          title="删除属性"
                         >
                           <Trash2 size={12} />
                         </button>

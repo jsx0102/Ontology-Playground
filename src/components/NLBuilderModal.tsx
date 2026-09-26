@@ -104,14 +104,14 @@ export function NLBuilderModal({ onClose }: NLBuilderModalProps) {
         
         // Handle specific errors
         if (errorEvent.error === 'network') {
-          setVoiceError('Network error - try Chrome or Safari');
+          setVoiceError('网络错误 - 请尝试使用 Chrome 或 Safari');
           shouldKeepListeningRef.current = false;
           setIsRecording(false);
           return;
         }
         
         if (errorEvent.error === 'service-not-allowed' || errorEvent.error === 'not-allowed') {
-          setVoiceError('Microphone access denied');
+          setVoiceError('麦克风访问被拒绝');
           shouldKeepListeningRef.current = false;
           setIsRecording(false);
           return;
@@ -152,7 +152,7 @@ export function NLBuilderModal({ onClose }: NLBuilderModalProps) {
         console.log('Recognition started');
       } catch (e) {
         console.error('Start failed:', e);
-        setVoiceError('Failed to start - try Chrome or Safari');
+        setVoiceError('启动失败 - 请尝试使用 Chrome 或 Safari');
         shouldKeepListeningRef.current = false;
         setIsRecording(false);
       }
@@ -201,7 +201,7 @@ export function NLBuilderModal({ onClose }: NLBuilderModalProps) {
       
       if (!response.ok) {
         const data = await response.json();
-        throw new Error(data.error || 'Failed to generate ontology');
+        throw new Error(data.error || '生成本体失败');
       }
       
       const { ontology } = await response.json();
@@ -217,7 +217,7 @@ export function NLBuilderModal({ onClose }: NLBuilderModalProps) {
       setEditedJson(JSON.stringify(ontology, null, 2));
       setStep('preview');
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Unknown error occurred');
+      setError(err instanceof Error ? err.message : '发生未知错误');
       setStep('error');
     }
   };
@@ -230,7 +230,7 @@ export function NLBuilderModal({ onClose }: NLBuilderModalProps) {
       loadOntology(ontologyToApply);
       handleClose();
     } catch {
-      setError('Invalid JSON in editor');
+      setError('编辑器中的 JSON 无效');
     }
   };
 
@@ -246,10 +246,10 @@ export function NLBuilderModal({ onClose }: NLBuilderModalProps) {
   };
 
   const examplePrompts = [
-    "I run a hospital with doctors, patients, and departments. Patients visit doctors for appointments.",
-    "An e-commerce platform with products, customers, orders, and reviews. Customers can return items.",
-    "A university with students, professors, courses, and departments. Students enroll in courses.",
-    "A restaurant chain with locations, employees, menu items, and customer orders with reservations.",
+    '我经营一家医院，有医生、患者和科室。患者预约医生就诊。',
+    '一个电商平台，包含商品、客户、订单和评价。客户可以退货。',
+    '一所大学，有学生、教授、课程和院系。学生选修课程。',
+    '一家连锁餐厅，包含门店、员工、菜品以及带预订功能的顾客订单。',
   ];
 
   return (
@@ -270,7 +270,7 @@ export function NLBuilderModal({ onClose }: NLBuilderModalProps) {
         <div className="modal-header">
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
             <Sparkles size={20} style={{ color: 'var(--accent)' }} />
-            <h2>Describe Your Ontology</h2>
+            <h2>描述你的本体</h2>
           </div>
           <button className="modal-close" onClick={handleClose}>
             <X size={20} />
@@ -280,14 +280,14 @@ export function NLBuilderModal({ onClose }: NLBuilderModalProps) {
             {step === 'input' && (
               <div className="nl-builder-content">
                 <p style={{ color: 'var(--text-secondary)', marginBottom: '16px' }}>
-                  Describe your business scenario in natural language or use voice input. 
-                  AI will extract entities, relationships, and properties to create an ontology.
+                  用自然语言描述你的业务场景，或使用语音输入。
+                  AI 将提取实体、关系和属性，生成本体。
                 </p>
                 
                 <div className="nl-input-wrapper">
                   <textarea
                     className="nl-input-textarea"
-                    placeholder="Describe your business scenario..."
+                    placeholder="描述你的业务场景…"
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
                     rows={5}
@@ -296,7 +296,7 @@ export function NLBuilderModal({ onClose }: NLBuilderModalProps) {
                     <button
                       className={`voice-btn ${isRecording ? 'recording' : ''}`}
                       onClick={toggleRecording}
-                      title={isRecording ? 'Stop recording' : 'Start voice input'}
+                      title={isRecording ? '停止录音' : '开始语音输入'}
                       type="button"
                     >
                       {isRecording ? <MicOff size={20} /> : <Mic size={20} />}
@@ -307,7 +307,7 @@ export function NLBuilderModal({ onClose }: NLBuilderModalProps) {
                 {isRecording && (
                   <div className="recording-indicator">
                     <span className="recording-dot" />
-                    Listening... Speak your ontology description
+                    正在聆听…请说出你的本体描述
                   </div>
                 )}
                 
@@ -318,7 +318,7 @@ export function NLBuilderModal({ onClose }: NLBuilderModalProps) {
                 )}
 
                 <div className="example-prompts">
-                  <span style={{ color: 'var(--text-tertiary)', fontSize: '12px' }}>Try an example:</span>
+                  <span style={{ color: 'var(--text-tertiary)', fontSize: '12px' }}>试一试示例：</span>
                   <div className="example-chips">
                     {examplePrompts.map((prompt, i) => (
                       <button
@@ -338,7 +338,7 @@ export function NLBuilderModal({ onClose }: NLBuilderModalProps) {
                   disabled={!description.trim()}
                 >
                   <Sparkles size={16} />
-                  Generate Ontology
+                  生成本体
                   <Send size={16} />
                 </button>
               </div>
@@ -347,9 +347,9 @@ export function NLBuilderModal({ onClose }: NLBuilderModalProps) {
             {step === 'loading' && (
               <div className="nl-builder-content nl-loading">
                 <Loader2 size={48} className="spin" style={{ color: 'var(--accent)' }} />
-                <p>Analyzing your description...</p>
+                <p>正在分析你的描述…</p>
                 <p style={{ color: 'var(--text-tertiary)', fontSize: '14px' }}>
-                  Extracting entities, relationships, and properties
+                  正在提取实体、关系和属性
                 </p>
               </div>
             )}
@@ -363,7 +363,7 @@ export function NLBuilderModal({ onClose }: NLBuilderModalProps) {
                     onClick={() => setEditMode(!editMode)}
                   >
                     <Edit3 size={14} />
-                    {editMode ? 'Preview' : 'Edit JSON'}
+                    {editMode ? '预览' : '编辑 JSON'}
                   </button>
                 </div>
 
@@ -377,20 +377,20 @@ export function NLBuilderModal({ onClose }: NLBuilderModalProps) {
                 ) : (
                   <div className="preview-summary">
                     <div className="preview-section">
-                      <h4>Entities ({generatedOntology.entityTypes.length})</h4>
+                      <h4>实体（{generatedOntology.entityTypes.length}）</h4>
                       <div className="preview-items">
                         {generatedOntology.entityTypes.map((entity) => (
                           <div key={entity.id} className="preview-item entity">
                             <span className="entity-icon">{entity.icon}</span>
                             <span className="entity-name">{entity.name}</span>
-                            <span className="entity-props">{entity.properties.length} props</span>
+                            <span className="entity-props">{entity.properties.length} 个属性</span>
                           </div>
                         ))}
                       </div>
                     </div>
 
                     <div className="preview-section">
-                      <h4>Relationships ({generatedOntology.relationships.length})</h4>
+                      <h4>关系（{generatedOntology.relationships.length}）</h4>
                       <div className="preview-items">
                         {generatedOntology.relationships.map((rel) => (
                           <div key={rel.id} className="preview-item relationship">
@@ -413,11 +413,11 @@ export function NLBuilderModal({ onClose }: NLBuilderModalProps) {
 
                 <div className="preview-actions">
                   <button className="btn-secondary" onClick={() => setStep('input')}>
-                    ← Back
+                    ← 上一步
                   </button>
                   <button className="btn-primary" onClick={handleApply}>
                     <Check size={16} />
-                    Apply Ontology
+                    应用本体
                   </button>
                 </div>
               </div>
@@ -426,12 +426,12 @@ export function NLBuilderModal({ onClose }: NLBuilderModalProps) {
         {step === 'error' && (
           <div className="nl-builder-content nl-error">
             <AlertCircle size={48} style={{ color: '#FF6B6B' }} />
-            <p style={{ color: '#FF6B6B' }}>Generation Failed</p>
+            <p style={{ color: '#FF6B6B' }}>生成失败</p>
             <p style={{ color: 'var(--text-secondary)', fontSize: '14px' }}>
-              {error || 'An unknown error occurred'}
+              {error || '发生未知错误'}
             </p>
             <button className="btn-secondary" onClick={() => setStep('input')}>
-              Try Again
+              重试
             </button>
           </div>
         )}

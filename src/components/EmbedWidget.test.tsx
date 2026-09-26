@@ -92,7 +92,7 @@ describe('EmbedWidget', () => {
     const config: EmbedConfig = { catalogueId: 'official/test', theme: 'dark', height: '400px' };
     render(<EmbedWidget config={config} />);
 
-    expect(screen.getByText('Loading ontology…')).toBeTruthy();
+    expect(screen.getByText('正在加载本体…')).toBeTruthy();
 
     await waitFor(() => {
       expect(screen.getByText('Test Ontology')).toBeTruthy();
@@ -107,8 +107,8 @@ describe('EmbedWidget', () => {
     await waitFor(() => {
       expect(screen.getByText('Test Ontology')).toBeTruthy();
     });
-    expect(screen.getByText(/2 entities/)).toBeTruthy();
-    expect(screen.getByText(/1 relationship/)).toBeTruthy();
+    expect(screen.getByText(/2 个实体/)).toBeTruthy();
+    expect(screen.getByText(/1 个关系/)).toBeTruthy();
   });
 
   it('shows error when no source specified', async () => {
@@ -116,7 +116,7 @@ describe('EmbedWidget', () => {
     render(<EmbedWidget config={config} />);
 
     await waitFor(() => {
-      expect(screen.getByText(/No ontology source specified/)).toBeTruthy();
+      expect(screen.getByText(/未指定本体来源/)).toBeTruthy();
     });
   });
 
@@ -126,7 +126,7 @@ describe('EmbedWidget', () => {
     render(<EmbedWidget config={config} />);
 
     await waitFor(() => {
-      expect(screen.getByText(/Failed to fetch ontology/)).toBeTruthy();
+      expect(screen.getByText(/获取本体失败/)).toBeTruthy();
     });
   });
 
@@ -136,7 +136,7 @@ describe('EmbedWidget', () => {
     render(<EmbedWidget config={config} />);
 
     await waitFor(() => {
-      expect(screen.getByText(/not found in catalogue/)).toBeTruthy();
+      expect(screen.getByText(/本体目录中未找到本体/)).toBeTruthy();
     });
   });
 
@@ -151,11 +151,11 @@ describe('EmbedWidget', () => {
     });
 
     // Initially on Graph tab — no RDF source visible
-    expect(screen.getByText('Graph')).toBeTruthy();
-    expect(screen.getByText('RDF Source')).toBeTruthy();
+    expect(screen.getByText('关系图')).toBeTruthy();
+    expect(screen.getByText('RDF 源码')).toBeTruthy();
 
     // Switch to RDF tab
-    await user.click(screen.getByText('RDF Source'));
+    await user.click(screen.getByText('RDF 源码'));
 
     // Should show RDF serialization (text is split across syntax-highlighted spans)
     await waitFor(() => {
@@ -164,7 +164,7 @@ describe('EmbedWidget', () => {
     });
 
     // Copy RDF button should appear
-    expect(screen.getByText('Copy RDF')).toBeTruthy();
+    expect(screen.getByText('复制 RDF')).toBeTruthy();
   });
 
   it('renders with light theme', async () => {
@@ -184,7 +184,7 @@ describe('EmbedWidget', () => {
     render(<EmbedWidget config={config} />);
 
     await waitFor(() => {
-      expect(screen.getByText(/2 entities · 1 relationship/)).toBeTruthy();
+      expect(screen.getByText(/2 个实体 · 1 个关系/)).toBeTruthy();
     });
   });
 });

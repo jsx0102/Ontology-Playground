@@ -89,27 +89,27 @@ export function QueryPlayground() {
     <div className="query-section">
       <div className="section-title">
         <Sparkles size={14} />
-        Natural Language Query (NL2Ontology)
+        自然语言查询（NL2Ontology）
       </div>
       
       <div className="query-input-container">
         <input
           type="text"
           className="query-input"
-          placeholder={`Ask about ${currentOntology.name}...`}
+          placeholder={`询问关于 ${currentOntology.name} 的问题…`}
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyPress={handleKeyPress}
         />
         {input && (
-          <button className="icon-btn" onClick={handleClear} title="Clear" aria-label="Clear query">
+          <button className="icon-btn" onClick={handleClear} title="清除" aria-label="清除查询">
             <X size={18} />
           </button>
         )}
         <button 
           className="btn btn-primary" 
           onClick={handleQuery}
-          aria-label="Run query"
+          aria-label="运行查询"
           disabled={isProcessing}
         >
           {isProcessing ? (
@@ -128,7 +128,7 @@ export function QueryPlayground() {
       {!result && !isProcessing && (
         <div style={{ marginBottom: 12 }}>
           <div style={{ fontSize: 11, color: 'var(--text-secondary)', marginBottom: 8 }}>
-            Try asking:
+            试试这样问：
           </div>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
             {sampleQueries.slice(0, 3).map((query, index) => (

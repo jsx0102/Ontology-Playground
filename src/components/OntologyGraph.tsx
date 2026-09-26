@@ -544,7 +544,7 @@ export function OntologyGraph() {
       {focusNodeId && (
         <div className="graph-focus-badge">
           <Crosshair size={13} />
-          <span>Focus mode</span>
+          <span>聚焦模式</span>
           <button
             className="graph-focus-exit"
             onClick={() => {
@@ -553,31 +553,31 @@ export function OntologyGraph() {
               if (cy) cy.elements().removeClass('dimmed');
             }}
           >
-            Click background or ✕ to exit
+            点击空白处或 ✕ 退出
           </button>
         </div>
       )}
       
       <div className="graph-controls">
-        <button className="graph-control-btn" onClick={handleZoomIn} title="Zoom In">
+        <button className="graph-control-btn" onClick={handleZoomIn} title="放大">
           <ZoomIn size={18} />
         </button>
-        <button className="graph-control-btn" onClick={handleZoomOut} title="Zoom Out">
+        <button className="graph-control-btn" onClick={handleZoomOut} title="缩小">
           <ZoomOut size={18} />
         </button>
-        <button className="graph-control-btn" onClick={handleFit} title="Fit to View">
+        <button className="graph-control-btn" onClick={handleFit} title="适应视图">
           <Maximize2 size={18} />
         </button>
-        <button className="graph-control-btn" onClick={handleReset} title="Reset Layout">
+        <button className="graph-control-btn" onClick={handleReset} title="重置布局">
           <RotateCcw size={18} />
         </button>
-        <button className="graph-control-btn" onClick={handleDownload} title="Download Graph as PNG" data-testid="download-ontology-png">
+        <button className="graph-control-btn" onClick={handleDownload} title="下载关系图 PNG" data-testid="download-ontology-png">
           <Download size={18} />
         </button>
       </div>
 
       <div className="graph-legend">
-        <div className="legend-title">Entity Types</div>
+        <div className="legend-title">实体类型</div>
         {currentOntology.entityTypes.map(entity => (
           <div key={entity.id} className="legend-item">
             <div className="legend-dot" style={{ backgroundColor: entity.color }} />

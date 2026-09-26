@@ -12,7 +12,7 @@ beforeEach(() => {
 describe('validateOntology', () => {
   it('reports empty ontology', () => {
     const errors = validateOntology({ name: '', description: '', entityTypes: [], relationships: [] });
-    expect(errors).toEqual([{ message: 'Add at least one entity type to your ontology.' }]);
+    expect(errors).toEqual([{ message: '请至少添加一个实体类型。' }]);
   });
 
   it('reports missing identifier property', () => {
@@ -26,7 +26,7 @@ describe('validateOntology', () => {
       relationships: [],
     };
     const errors = validateOntology(ontology);
-    expect(errors.some((e) => e.message.includes('identifier'))).toBe(true);
+    expect(errors.some((e) => e.message.includes('标识符'))).toBe(true);
   });
 
   it('reports duplicate entity IDs', () => {
@@ -39,7 +39,7 @@ describe('validateOntology', () => {
       ],
       relationships: [],
     };
-    expect(validateOntology(ontology).some((e) => e.message.includes('share the same ID'))).toBe(true);
+    expect(validateOntology(ontology).some((e) => e.message.includes('相同的 ID'))).toBe(true);
   });
 
   it('reports duplicate relationship IDs', () => {
@@ -55,7 +55,7 @@ describe('validateOntology', () => {
         { id: 'r1', name: 'y', from: 'e2', to: 'e1', cardinality: 'one-to-one' },
       ],
     };
-    expect(validateOntology(ontology).some((e) => e.message.includes('share the same ID'))).toBe(true);
+    expect(validateOntology(ontology).some((e) => e.message.includes('相同的 ID'))).toBe(true);
   });
 
   it('reports relationships referencing unknown entities', () => {
@@ -69,7 +69,7 @@ describe('validateOntology', () => {
         { id: 'r1', name: 'x', from: 'e1', to: 'missing', cardinality: 'one-to-many' },
       ],
     };
-    expect(validateOntology(ontology).some((e) => e.message.includes("doesn't exist"))).toBe(true);
+    expect(validateOntology(ontology).some((e) => e.message.includes('不存在'))).toBe(true);
   });
 
   it('passes for a valid ontology', () => {
@@ -97,7 +97,7 @@ describe('validateOntology', () => {
       ],
       relationships: [],
     };
-    expect(validateOntology(ontology).some((e) => e.message.includes('must start with'))).toBe(true);
+    expect(validateOntology(ontology).some((e) => e.message.includes('必须以字母或数字开头'))).toBe(true);
   });
 
   it('reports entity type names exceeding 26 characters', () => {
@@ -109,7 +109,7 @@ describe('validateOntology', () => {
       ],
       relationships: [],
     };
-    expect(validateOntology(ontology).some((e) => e.message.includes('exceeds 26'))).toBe(true);
+    expect(validateOntology(ontology).some((e) => e.message.includes('超过了 26 个字符'))).toBe(true);
   });
 
   // §7.2 — Property name validation
@@ -124,7 +124,7 @@ describe('validateOntology', () => {
       relationships: [],
     };
     const errors = validateOntology(ontology);
-    expect(errors.some((e) => e.message.includes('Property name'))).toBe(true);
+    expect(errors.some((e) => e.message.includes('属性名称'))).toBe(true);
   });
 
   it('reports cross-entity property type conflict', () => {
@@ -139,7 +139,7 @@ describe('validateOntology', () => {
       ],
       relationships: [],
     };
-    expect(validateOntology(ontology).some((e) => e.message.includes('same type when property names match'))).toBe(true);
+    expect(validateOntology(ontology).some((e) => e.message.includes('同名属性类型一致'))).toBe(true);
   });
 
   // §1 partial — Identifier key type validation
@@ -153,7 +153,7 @@ describe('validateOntology', () => {
       ],
       relationships: [],
     };
-    expect(validateOntology(ontology).some((e) => e.message.includes('must be string or integer'))).toBe(true);
+    expect(validateOntology(ontology).some((e) => e.message.includes('必须为 string 或 integer'))).toBe(true);
   });
 
   // §7.3 — Self-referencing relationships are allowed (issue #64)
@@ -201,7 +201,7 @@ describe('validateOntology', () => {
         { id: 'r1', name: 'reportsTo', from: 'ghost', to: 'ghost', cardinality: 'one-to-many' },
       ],
     };
-    expect(validateOntology(ontology).some((e) => e.message.includes("doesn't exist"))).toBe(true);
+    expect(validateOntology(ontology).some((e) => e.message.includes('不存在'))).toBe(true);
   });
 
   it('allows multiple self-referencing relationships on the same entity', () => {
@@ -243,18 +243,18 @@ describe('isValidFabricIQName', () => {
 
 describe('fabricIQNameError', () => {
   it('returns null for valid names', () => {
-    expect(fabricIQNameError('Entity type', 'Customer')).toBeNull();
+    expect(fabricIQNameError('实体类型', 'Customer')).toBeNull();
   });
 
   it('returns null for empty names (caught elsewhere)', () => {
-    expect(fabricIQNameError('Entity type', '')).toBeNull();
+    expect(fabricIQNameError('实体类型', '')).toBeNull();
   });
 
   it('returns specific error messages', () => {
-    expect(fabricIQNameError('Entity type', 'A'.repeat(27))).toContain('exceeds 26');
-    expect(fabricIQNameError('Property', '-start')).toContain('must start with');
-    expect(fabricIQNameError('Property', 'end-')).toContain('must end with');
-    expect(fabricIQNameError('Property', 'has space')).toContain('may only contain');
+    expect(fabricIQNameError('实体类型', 'A'.repeat(27))).toContain('超过了 26 个字符');
+    expect(fabricIQNameError('属性', '-start')).toContain('必须以字母或数字开头');
+    expect(fabricIQNameError('属性', 'end-')).toContain('必须以字母或数字结尾');
+    expect(fabricIQNameError('属性', 'has space')).toContain('只能包含');
   });
 });
 

@@ -31,14 +31,14 @@ export function FabricExportModal({ onClose }: FabricExportModalProps) {
 
   const handleLoadWorkspace = useCallback(async () => {
     if (!token.trim() || !workspaceId.trim()) {
-      setError('Both token and workspace ID are required.');
+      setError('必须填写访问令牌和工作区 ID。');
       return;
     }
 
     // Basic UUID format validation
     const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
     if (!uuidRegex.test(workspaceId.trim())) {
-      setError('Workspace ID must be a valid UUID (e.g., cfafbeb1-8037-4d0c-896e-a46fb27ff229).');
+      setError('工作区 ID 必须是有效的 UUID（例如 cfafbeb1-8037-4d0c-896e-a46fb27ff229）。');
       return;
     }
 
@@ -51,9 +51,9 @@ export function FabricExportModal({ onClose }: FabricExportModalProps) {
       setStep('workspace');
     } catch (err) {
       if (err instanceof FabricApiError) {
-        setError(`API error (${err.status}): ${err.message}`);
+        setError(`API 错误（${err.status}）：${err.message}`);
       } else {
-        setError(err instanceof Error ? err.message : 'Failed to connect to workspace');
+        setError(err instanceof Error ? err.message : '连接工作区失败');
       }
     } finally {
       setLoading(false);
@@ -85,9 +85,9 @@ export function FabricExportModal({ onClose }: FabricExportModalProps) {
       setStep('done');
     } catch (err) {
       if (err instanceof FabricApiError) {
-        setError(`API error (${err.status}): ${err.message}`);
+        setError(`API 错误（${err.status}）：${err.message}`);
       } else {
-        setError(err instanceof Error ? err.message : 'Push failed');
+        setError(err instanceof Error ? err.message : '推送失败');
       }
       setStep('error');
     }
@@ -121,9 +121,9 @@ export function FabricExportModal({ onClose }: FabricExportModalProps) {
               <Cloud size={20} color="var(--ms-blue)" />
             </div>
             <div>
-              <h2 style={{ fontSize: 20, fontWeight: 600 }}>Push to Microsoft Fabric</h2>
+              <h2 style={{ fontSize: 20, fontWeight: 600 }}>推送到 Microsoft Fabric</h2>
               <p style={{ fontSize: 12, color: 'var(--text-secondary)', marginTop: 2 }}>
-                Create or update an ontology in your Fabric workspace
+                在你的 Fabric 工作区中创建或更新本体
               </p>
             </div>
           </div>
@@ -140,7 +140,7 @@ export function FabricExportModal({ onClose }: FabricExportModalProps) {
         }}>
           <strong>{currentOntology.name}</strong>
           <span style={{ color: 'var(--text-secondary)', marginLeft: 8 }}>
-            {currentOntology.entityTypes.length} entity types, {currentOntology.relationships.length} relationships
+            {currentOntology.entityTypes.length} 个实体类型、{currentOntology.relationships.length} 个关系
           </span>
         </div>
 
@@ -164,7 +164,7 @@ export function FabricExportModal({ onClose }: FabricExportModalProps) {
           <div>
             <div style={{ marginBottom: 16 }}>
               <label style={{ display: 'block', fontSize: 13, fontWeight: 600, marginBottom: 6 }}>
-                Workspace ID
+                工作区 ID
               </label>
               <input
                 type="text"
@@ -183,19 +183,19 @@ export function FabricExportModal({ onClose }: FabricExportModalProps) {
                 }}
               />
               <p style={{ fontSize: 11, color: 'var(--text-tertiary)', marginTop: 4 }}>
-                Find this in Fabric portal → Workspace settings → Overview
+                可在 Fabric 门户 → 工作区设置 → 概述 中找到
               </p>
             </div>
 
             <div style={{ marginBottom: 20 }}>
               <label style={{ display: 'block', fontSize: 13, fontWeight: 600, marginBottom: 6 }}>
-                Access Token
+                访问令牌
               </label>
               <input
                 type="password"
                 value={token}
                 onChange={(e) => setToken(e.target.value)}
-                placeholder="Paste your bearer token here"
+                placeholder="在此粘贴你的 Bearer 令牌"
                 spellCheck={false}
                 style={{
                   width: '100%', padding: '8px 12px',
@@ -208,8 +208,8 @@ export function FabricExportModal({ onClose }: FabricExportModalProps) {
                 }}
               />
               <p style={{ fontSize: 11, color: 'var(--text-tertiary)', marginTop: 4 }}>
-                Bearer token with <code>Item.ReadWrite.All</code> scope.
-                Get one from the Fabric REST API &quot;Try It&quot; page or via MSAL.
+                具有 <code>Item.ReadWrite.All</code> 权限范围的 Bearer 令牌。
+                可从 Fabric REST API 的&quot;试用&quot;页面或通过 MSAL 获取。
               </p>
             </div>
 
@@ -219,7 +219,7 @@ export function FabricExportModal({ onClose }: FabricExportModalProps) {
               disabled={loading}
               style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}
             >
-              {loading ? <><Loader2 size={14} className="spin" /> Connecting...</> : 'Connect to Workspace'}
+              {loading ? <><Loader2 size={14} className="spin" /> 连接中…</> : '连接到工作区'}
             </button>
           </div>
         )}
@@ -229,7 +229,7 @@ export function FabricExportModal({ onClose }: FabricExportModalProps) {
           <div>
             <div style={{ marginBottom: 16 }}>
               <label style={{ display: 'block', fontSize: 13, fontWeight: 600, marginBottom: 8 }}>
-                Action
+                操作
               </label>
               <div style={{ display: 'flex', gap: 8 }}>
                 <button
@@ -243,7 +243,7 @@ export function FabricExportModal({ onClose }: FabricExportModalProps) {
                     cursor: 'pointer', fontSize: 13, fontWeight: 600,
                   }}
                 >
-                  Create New
+                  新建
                 </button>
                 <button
                   onClick={() => setMode('update')}
@@ -258,7 +258,7 @@ export function FabricExportModal({ onClose }: FabricExportModalProps) {
                     fontSize: 13, fontWeight: 600,
                   }}
                 >
-                  Update Existing ({existingOntologies.length})
+                  更新现有（{existingOntologies.length}）
                 </button>
               </div>
             </div>
@@ -266,7 +266,7 @@ export function FabricExportModal({ onClose }: FabricExportModalProps) {
             {mode === 'update' && existingOntologies.length > 0 && (
               <div style={{ marginBottom: 16 }}>
                 <label style={{ display: 'block', fontSize: 13, fontWeight: 600, marginBottom: 6 }}>
-                  Select Ontology
+                  选择本体
                 </label>
                 <select
                   value={selectedOntologyId}
@@ -280,7 +280,7 @@ export function FabricExportModal({ onClose }: FabricExportModalProps) {
                     fontSize: 13,
                   }}
                 >
-                  <option value="">— Select —</option>
+                  <option value="">— 请选择 —</option>
                   {existingOntologies.map(o => (
                     <option key={o.id} value={o.id}>
                       {o.displayName} ({o.id.slice(0, 8)}…)
@@ -296,7 +296,7 @@ export function FabricExportModal({ onClose }: FabricExportModalProps) {
                 onClick={() => { setStep('credentials'); setError(''); }}
                 style={{ flex: 1 }}
               >
-                Back
+                上一步
               </button>
               <button
                 className="btn btn-primary"
@@ -304,7 +304,7 @@ export function FabricExportModal({ onClose }: FabricExportModalProps) {
                 disabled={mode === 'update' && !selectedOntologyId}
                 style={{ flex: 2 }}
               >
-                {mode === 'create' ? 'Create & Push' : 'Update Definition'}
+                {mode === 'create' ? '创建并推送' : '更新定义'}
               </button>
             </div>
           </div>
@@ -315,10 +315,10 @@ export function FabricExportModal({ onClose }: FabricExportModalProps) {
           <div style={{ textAlign: 'center', padding: '32px 0' }}>
             <Loader2 size={32} color="var(--ms-blue)" style={{ animation: 'spin 1s linear infinite' }} />
             <p style={{ marginTop: 16, fontSize: 14, color: 'var(--text-secondary)' }}>
-              {mode === 'create' ? 'Creating ontology in Fabric...' : 'Updating ontology definition...'}
+              {mode === 'create' ? '正在 Fabric 中创建本体…' : '正在更新本体定义…'}
             </p>
             <p style={{ fontSize: 12, color: 'var(--text-tertiary)', marginTop: 4 }}>
-              This may take a moment while Fabric provisions the resource.
+              Fabric 正在预配资源，可能需要稍等片刻。
             </p>
 
             <style>{`@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }`}</style>
@@ -330,7 +330,7 @@ export function FabricExportModal({ onClose }: FabricExportModalProps) {
           <div style={{ textAlign: 'center', padding: '24px 0' }}>
             <CheckCircle size={40} color="var(--ms-green)" />
             <p style={{ marginTop: 12, fontSize: 16, fontWeight: 600 }}>
-              {mode === 'create' ? 'Ontology Created!' : 'Definition Updated!'}
+              {mode === 'create' ? '本体已创建！' : '定义已更新！'}
             </p>
             {result && (
               <div style={{
@@ -339,9 +339,9 @@ export function FabricExportModal({ onClose }: FabricExportModalProps) {
                 borderRadius: 'var(--radius-md)',
                 fontSize: 13, textAlign: 'left',
               }}>
-                <div><strong>Name:</strong> {result.displayName}</div>
-                <div><strong>ID:</strong> <code style={{ fontSize: 11 }}>{result.id}</code></div>
-                <div><strong>Workspace:</strong> <code style={{ fontSize: 11 }}>{result.workspaceId}</code></div>
+                <div><strong>名称：</strong> {result.displayName}</div>
+                <div><strong>ID：</strong> <code style={{ fontSize: 11 }}>{result.id}</code></div>
+                <div><strong>工作区：</strong> <code style={{ fontSize: 11 }}>{result.workspaceId}</code></div>
               </div>
             )}
             <button
@@ -349,7 +349,7 @@ export function FabricExportModal({ onClose }: FabricExportModalProps) {
               onClick={onClose}
               style={{ marginTop: 20 }}
             >
-              Done
+              完成
             </button>
           </div>
         )}
@@ -359,7 +359,7 @@ export function FabricExportModal({ onClose }: FabricExportModalProps) {
           <div style={{ textAlign: 'center', padding: '24px 0' }}>
             <AlertCircle size={40} color="#D13438" />
             <p style={{ marginTop: 12, fontSize: 14, color: '#D13438' }}>
-              Push failed. Check the error above and try again.
+              推送失败。请查看上方的错误信息，然后重试。
             </p>
             <div style={{ display: 'flex', gap: 8, justifyContent: 'center', marginTop: 20 }}>
               <button
@@ -368,10 +368,10 @@ export function FabricExportModal({ onClose }: FabricExportModalProps) {
                 style={{ display: 'flex', alignItems: 'center', gap: 6 }}
               >
                 <RefreshCw size={14} />
-                Start Over
+                重新开始
               </button>
               <button className="btn btn-primary" onClick={onClose}>
-                Close
+                关闭
               </button>
             </div>
           </div>

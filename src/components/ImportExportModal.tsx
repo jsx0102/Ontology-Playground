@@ -77,16 +77,16 @@ export function ImportExportModal({ onClose, onFabricPush }: ImportExportModalPr
           const parsed = JSON.parse(content);
 
           if (!parsed.ontology || !parsed.ontology.entityTypes || !parsed.ontology.relationships) {
-            throw new Error('Invalid ontology structure. Must have ontology.entityTypes and ontology.relationships.');
+            throw new Error('本体的 JSON 结构无效：必须包含 ontology.entityTypes 和 ontology.relationships。');
           }
 
           ontology = parsed.ontology;
           bindings = parsed.bindings || [];
         } else {
           const supported = LEGACY_FORMATS_ENABLED
-            ? 'an RDF/OWL (.rdf, .owl, .iq) or JSON (.json)'
-            : 'an RDF/OWL (.rdf, .owl, .iq)';
-          throw new Error(`Unsupported file format: "${file.name}". Please import ${supported} file.`);
+            ? 'RDF/OWL（.rdf、.owl、.iq）或 JSON（.json）'
+            : 'RDF/OWL（.rdf、.owl、.iq）';
+          throw new Error(`不支持的文件格式："${file.name}"。请导入 ${supported} 文件。`);
         }
 
         // Fall back to filename (without extension) if no ontology name was parsed
@@ -103,9 +103,9 @@ export function ImportExportModal({ onClose, onFabricPush }: ImportExportModalPr
       } catch (err) {
         setImportStatus('error');
         if (err instanceof RDFParseError) {
-          setErrorMessage(`RDF parse error: ${err.message}`);
+          setErrorMessage(`RDF 解析错误：${err.message}`);
         } else {
-          setErrorMessage(err instanceof Error ? err.message : 'Failed to parse file');
+          setErrorMessage(err instanceof Error ? err.message : '解析文件失败');
         }
       }
     };
@@ -254,9 +254,9 @@ export function ImportExportModal({ onClose, onFabricPush }: ImportExportModalPr
       >
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
           <div>
-            <h2 style={{ fontSize: 24, fontWeight: 600 }}>Import / Export Ontology</h2>
+            <h2 style={{ fontSize: 24, fontWeight: 600 }}>导入 / 导出本体</h2>
             <p style={{ fontSize: 14, color: 'var(--text-secondary)', marginTop: 4 }}>
-              Load your own ontology or export the current one
+              导入你自己的本体，或导出当前本体
             </p>
           </div>
           <button className="icon-btn" onClick={onClose}>
@@ -275,10 +275,10 @@ export function ImportExportModal({ onClose, onFabricPush }: ImportExportModalPr
           alignItems: 'center'
         }}>
           <div>
-            <div style={{ fontSize: 13, color: 'var(--text-tertiary)', marginBottom: 4 }}>Currently Loaded</div>
+            <div style={{ fontSize: 13, color: 'var(--text-tertiary)', marginBottom: 4 }}>当前已加载</div>
             <div style={{ fontSize: 16, fontWeight: 600 }}>{currentOntology.name}</div>
             <div style={{ fontSize: 12, color: 'var(--text-secondary)' }}>
-              {currentOntology.entityTypes.length} entity types, {currentOntology.relationships.length} relationships
+              {currentOntology.entityTypes.length} 个实体类型、{currentOntology.relationships.length} 个关系
             </div>
           </div>
           <button 
@@ -287,7 +287,7 @@ export function ImportExportModal({ onClose, onFabricPush }: ImportExportModalPr
             style={{ display: 'flex', alignItems: 'center', gap: 6 }}
           >
             <RotateCcw size={14} />
-            Reset to Default
+            恢复默认
           </button>
         </div>
 
@@ -304,7 +304,7 @@ export function ImportExportModal({ onClose, onFabricPush }: ImportExportModalPr
             color: 'var(--ms-green)'
           }}>
             <CheckCircle size={18} />
-            <span>Ontology loaded successfully!</span>
+            <span>本体加载成功！</span>
           </div>
         )}
 
@@ -368,9 +368,9 @@ export function ImportExportModal({ onClose, onFabricPush }: ImportExportModalPr
             }}>
               <Upload size={24} color="var(--ms-blue)" />
             </div>
-            <div style={{ fontSize: 14, fontWeight: 600, marginBottom: 4 }}>Import Ontology</div>
+            <div style={{ fontSize: 14, fontWeight: 600, marginBottom: 4 }}>导入本体</div>
             <div style={{ fontSize: 12, color: 'var(--text-tertiary)' }}>
-              {LEGACY_FORMATS_ENABLED ? 'Drop JSON or RDF/OWL file here' : 'Drop RDF/OWL (.rdf, .owl, .iq) file here'}
+              {LEGACY_FORMATS_ENABLED ? '将 JSON 或 RDF/OWL 文件拖放到此处' : '将 RDF/OWL（.rdf、.owl、.iq）文件拖放到此处'}
             </div>
           </div>
 
@@ -395,7 +395,7 @@ export function ImportExportModal({ onClose, onFabricPush }: ImportExportModalPr
             }}>
               <Download size={24} color="var(--ms-green)" />
             </div>
-            <div style={{ fontSize: 14, fontWeight: 600, marginBottom: 12 }}>Export Current</div>
+            <div style={{ fontSize: 14, fontWeight: 600, marginBottom: 12 }}>导出当前本体</div>
             
             {/* Format Selector — only shown when legacy formats are enabled */}
             {LEGACY_FORMATS_ENABLED && (
@@ -468,7 +468,7 @@ export function ImportExportModal({ onClose, onFabricPush }: ImportExportModalPr
                     alignItems: 'center',
                     gap: 4
                   }}
-                  title="RDF/XML format for MS Fabric"
+                  title="用于 MS Fabric 的 RDF/XML 格式"
                 >
                   <Share2 size={12} />
                   RDF
@@ -481,7 +481,7 @@ export function ImportExportModal({ onClose, onFabricPush }: ImportExportModalPr
               onClick={handleExport}
               style={{ width: '100%' }}
             >
-              {LEGACY_FORMATS_ENABLED ? `Download .${exportFormat}` : 'Download RDF/OWL'}
+              {LEGACY_FORMATS_ENABLED ? `下载 .${exportFormat}` : '下载 RDF/OWL'}
             </button>
 
             {onFabricPush && (
@@ -491,7 +491,7 @@ export function ImportExportModal({ onClose, onFabricPush }: ImportExportModalPr
                 style={{ width: '100%', marginTop: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}
               >
                 <Cloud size={14} />
-                Push to Microsoft Fabric
+                推送到 Microsoft Fabric
               </button>
             )}
           </div>
@@ -509,7 +509,7 @@ export function ImportExportModal({ onClose, onFabricPush }: ImportExportModalPr
               <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                 <FileJson size={16} color="var(--text-tertiary)" />
                 <span style={{ fontSize: 13, color: 'var(--text-secondary)', fontWeight: 600 }}>
-                  JSON Schema Reference
+                  JSON 架构参考
                 </span>
               </div>
               <button 
@@ -518,7 +518,7 @@ export function ImportExportModal({ onClose, onFabricPush }: ImportExportModalPr
                 onClick={handleCopySchema}
               >
                 <Copy size={12} style={{ marginRight: 4 }} />
-                {copied ? 'Copied!' : 'Copy'}
+                {copied ? '已复制！' : '复制'}
               </button>
             </div>
             <pre style={{ 
@@ -539,7 +539,7 @@ export function ImportExportModal({ onClose, onFabricPush }: ImportExportModalPr
 
         <div style={{ marginTop: 20, textAlign: 'center' }}>
           <button className="btn btn-primary" onClick={onClose}>
-            Done
+            完成
           </button>
         </div>
       </motion.div>
