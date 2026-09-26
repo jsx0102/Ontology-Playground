@@ -1,0 +1,92 @@
+# Sync from upstream microsoft/Ontology-Playground
+name: Sync upstream
+
+on:
+  schedule:
+    - cron: '0 2 * * 1' # 每周一 UTC 02:00（北京时间 10:00）
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  issues: write
+
+concurrency:
+  group: sync-upstream
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: zh-CN
+          fetch-depth: 0
+
+      - name: Configure git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Fetch upstream
+        run: git remote add upstream https://github.com/microsoft/Ontology-Playground.git && git fetch upstream main
+
+      - name: Sync main
+        run: |
+          git checkout main
+          if git merge --ff-only upstream/main; then
+            git push origin main
+            echo "main_updated=true" >> "$GITHUB_ENV"
+          else
+            # 本地 main 应当始终是上游的快照；出现分叉时退回普通合并
+            git merge --no-edit upstream/main && git push origin main || {
+              git merge --abort
+              echo "main_conflict=true" >> "$GITHUB_ENV"
+            }
+          fi
+
+      - name: Sync zh-CN (merge into localization branch)
+        run: |
+          git checkout zh-CN
+          if ! git merge --no-edit upstream/main; then
+            git merge --abort
+            echo "zh_conflict=true" >> "$GITHUB_ENV"
+          fi
+
+      - name: Push zh-CN
+        if: env.zh_conflict != 'true'
+        run: |
+          if git log origin/zh-CN..zh-CN --oneline | grep -q .; then
+            git push origin zh-CN
+            echo "zh_pushed=true" >> "$GITHUB_ENV"
+          fi
+
+      - name: Trigger deploy after push
+        # GITHUB_TOKEN 的 push 不会触发其他工作流，需显式 dispatch 部署
+        if: env.zh_pushed == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh workflow run deploy-ghpages.yml -R "$GITHUB_REPOSITORY" --ref zh-CN
+
+      - name: Open issue on conflict
+        if: env.zh_conflict == 'true' || env.main_conflict == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh issue create -R "$GITHUB_REPOSITORY" \
+            --title "上游同步遇到冲突，需要手动处理" \
+            --label "upstream-sync" \
+            --body "每周自动同步 microsoft/Ontology-Playground 时发生合并冲突。请在本地执行：
+          \`\`\`bash
+          git fetch upstream && git checkout zh-CN && git merge upstream/main
+          \`\`\`
+          解决冲突后推送，线上会自动重新部署。（本 issue 由 sync-upstream 工作流自动创建）" \
+            || echo "issue creation failed"
+
+      - name: Summary
+        run: |
+          {
+            echo "main 更新: ${main_updated:-false}"
+            echo "zh-CN 推送: ${zh_pushed:-false}"
+            echo "冲突: ${zh_conflict:-false}${main_conflict:-false}"
+          } >> "$GITHUB_STEP_SUMMARY"
